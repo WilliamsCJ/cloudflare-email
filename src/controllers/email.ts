@@ -3,6 +3,7 @@ import { IContact, IEmail } from '../schema/email';
 type IMCPersonalization = { to: IMCContact[]; dkim_domain: string; dkim_selector: string; dkim_private_key: string };
 type IMCContact = { email: string; name: string | undefined };
 type IMCContent = { type: string; value: string };
+type IMCHeaders = { 'X-Entity-Ref-ID': string }
 
 interface IMCEmail {
 	personalizations: IMCPersonalization[];
@@ -12,6 +13,7 @@ interface IMCEmail {
 	bcc: IMCContact[] | undefined;
 	subject: string;
 	content: IMCContent[];
+	headers: IMCHeaders;
 }
 
 class Email {
@@ -96,6 +98,10 @@ class Email {
 
 		const content: IMCContent[] = [...textContent, ...htmlContent];
 
+		const headers: IMCHeaders = {
+			"X-Entity-Ref-ID": new Date().getTime() + ""
+		}
+
 		return {
 			personalizations,
 			from,
@@ -104,6 +110,7 @@ class Email {
 			reply_to: replyTo,
 			subject,
 			content,
+			headers
 		};
 	}
 
