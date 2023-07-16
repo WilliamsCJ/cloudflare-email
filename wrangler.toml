@@ -1,6 +1,9 @@
 name = "worker-email"
 main = "src/main.ts"
 compatibility_date = "2023-05-18"
+routes = [
+	{ pattern = "mail.blogletter.co", custom_domain = true }
+]
 
 [env.production]
 
